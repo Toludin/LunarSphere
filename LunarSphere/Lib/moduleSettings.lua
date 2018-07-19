@@ -4494,7 +4494,7 @@ function Lunar.Settings:StanceIconSetup(stanceIconName, stanceIconWidthBoundry, 
 	-- Setup our stance icons. The first stance will always be visible (normal
 	-- form) and the others will only be visible if the player has it unlocked and
 	-- the "Use Stances" option is turned on.
-	local x, maxX, stanceWidth, shiftIcon, shiftName, shiftActive, shiftCastable, iconObject;
+	local x, maxX, stanceWidth, shiftIcon, shiftID, shiftActive, shiftCastable, iconObject;
 
 	maxX = GetNumShapeshiftForms();
 
@@ -4530,24 +4530,24 @@ function Lunar.Settings:StanceIconSetup(stanceIconName, stanceIconWidthBoundry, 
 					iconObject:SetWidth(stanceWidth);
 					iconObject:Show();
 				else
-					shiftIcon, shiftName, shiftActive, shiftCastable = GetShapeshiftFormInfo(x);
+					shiftIcon, shiftActive, shiftCastable, shiftID = GetShapeshiftFormInfo(x);
 
-if ((LunarSphereSettings.debugSpellAdd == true) and not shiftIcon) then 
-	shiftIcon = "Interface\\Icons\\INV_Misc_QuestionMark";
-end
+				if ((LunarSphereSettings.debugSpellAdd == true) and not shiftIcon) then 
+					shiftIcon = "Interface\\Icons\\INV_Misc_QuestionMark";
+				end
 					-- Rogues have stealth (1) and shadow dance (2), but the shadow
 					-- dance is actually stance 3, not 2.
 					if (select(2, UnitClass("player")) == "ROGUE") then
 						if (x == 2) then
 							shiftIcon = nil;
 						elseif (x == 3) then
-							shiftIcon, shiftName, shiftActive, shiftCastable = GetShapeshiftFormInfo(2);
+							shiftIcon, shiftActive, shiftCastable, shiftID = GetShapeshiftFormInfo(2);
 						end
 					end
 
 					if (shiftIcon) then
 						if (shiftActive) then
-							shiftIcon = GetSpellTexture(shiftName);
+							shiftIcon = GetSpellTexture(shiftID);
 						end
 						iconObject:SetNormalTexture(shiftIcon);
 						iconObject:GetNormalTexture():SetTexCoord(0.1,0.9,0.1,0.9);
@@ -4555,7 +4555,7 @@ end
 						if (useStances) then
 							iconObject:Show();
 						end
-						iconObject.stanceName = shiftName;
+						iconObject.stanceName = shiftID;
 					end
 				end
 			end

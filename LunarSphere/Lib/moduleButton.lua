@@ -6450,7 +6450,7 @@ function Lunar.Button:UpdateSpellState(self)
 				if (Lunar.Settings.hasAuras) then
 					local auraID = GetShapeshiftForm(false);
 					if (auraID > 0) then
-						if (self.actionName == select(2, GetShapeshiftFormInfo(auraID))) then
+						if (self.actionName == select(4, GetShapeshiftFormInfo(auraID))) then
 							border:SetVertexColor(1,1,0);
 							border:Show();
 						end
