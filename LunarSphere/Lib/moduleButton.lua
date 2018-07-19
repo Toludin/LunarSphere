@@ -5785,7 +5785,7 @@ function Lunar.Button:UpdateCount(self)
 							end
 						end
 					else
-						actionName = GetItemInfo(GetInventoryItemLink(self.buttonType - 117) or ("")) or ("");
+						actionName = GetItemInfo(GetInventoryItemLink("player", self.buttonType - 117) or ("")) or ("");
 					end
 					actionName = actionName or ("") ;
 
@@ -6436,6 +6436,7 @@ function Lunar.Button:UpdateSpellState(self)
 		self.updateIcon = true;
 	else
 		if (self.actionType == "spell") and ((self.buttonType < 140) or (self.buttonType >= 150)) then
+			--print("buttonType: " .. self.buttonType .. " " .. "actionType: " .. self.actionType .. " " .. "actionName: " .. self.actionName)
 			local border = _G[self:GetName().."Border"];
 			if (border) then
 				if ( (IsAttackSpell(self.actionName) and IsCurrentSpell(self.actionName)) or IsCurrentSpell(self.actionName) or IsAutoRepeatSpell(self.actionName) ) then --spellID, BOOKTYPE_SPELL)) then
