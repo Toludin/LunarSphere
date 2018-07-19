@@ -3335,7 +3335,7 @@ end
 function Lunar.Button:Assign(self, clickType, stance)
 
 	-- Create our locals and store the data that's in the player's cursor
-	local cursorType, objectID, objectData = GetCursorInfo();
+	local cursorType, objectID, objectData, objectSpellID = GetCursorInfo();
 	local buttonID = self:GetID();
 	local secondCursorType = nil;
 
@@ -3428,12 +3428,12 @@ function Lunar.Button:Assign(self, clickType, stance)
 		stance = self.currentStance;
 	end
 
-if ((LunarSphereSettings.debugSpellAdd == true) and (Lunar.Button.debugTexture ~= nil )) then
-	cursorType = "spell";
-	objectID = "";
-	objectData = "";
-	stance = Lunar.Button.debugStance or stance;
-end
+	if ((LunarSphereSettings.debugSpellAdd == true) and (Lunar.Button.debugTexture ~= nil )) then
+		cursorType = "spell";
+		objectID = "";
+		objectData = "";
+		stance = Lunar.Button.debugStance or stance;
+	end
 
 	-- Clear our update cache
 	Lunar.Button.updateType = nil;
@@ -3518,17 +3518,17 @@ end
 		if (cursorType == "spell") then
 
 			-- Get the name of the spell and its texture
-			_, spellID = GetSpellBookItemInfo(objectID, objectData);
+			--_, spellID = GetSpellBookItemInfo(objectSpellID, objectData);
 			objectName = GetSpellBookItemName(objectID, objectData);
-			objectTexture = GetSpellTexture(objectID, objectData);
-			spellName = GetSpellInfo(spellID);
+			objectTexture = GetSpellTexture(objectSpellID);
+			spellName = GetSpellInfo(objectSpellID);
 
 			-- Fix for Call Pet for hunters.
 			if (objectName ~= spellName) then
-				objectName = spellID;
+				objectName = objectSpellID;
 			-- Fix for normal sheep polymorph
-			elseif (spellID == 118) then
-				objectName = spellID;
+			elseif (objectSpellID == 118) then
+				objectName = objectSpellID;
 			else
 --				if (objectName ~= nextSpellName) then
 --					if (string.find(spellRank, "%d")) then
@@ -3541,7 +3541,7 @@ end
 					end
 --				end
 				-- We don't want spell ranks on the first spell tab data or the professions tab ... these are generic
-				if (objectID <= (select(4, GetSpellTabInfo(1))) or objectID >= (select(3, GetSpellTabInfo(5)))) then
+				if (objectID <= (select(4, GetSpellTabInfo(1))) or objectSpellID >= (select(3, GetSpellTabInfo(5)))) then
 					spellRank = "";
 				end
 	--			objectName = objectName .. spellRank;
@@ -3567,8 +3567,8 @@ end
 			-- Get the name of the item, what it can stack as, and its texture
 			objectName, _, _, _, _, objectMainType, objectType, stackTotal, _, objectTexture = GetItemInfo(objectData);
 
--- NEW code for item names (item link for weapons/armor, to remember their "of the bear" and other animal
--- modifiers, all other items is JUST the item ID)
+			-- NEW code for item names (item link for weapons/armor, to remember their "of the bear" and other animal
+			-- modifiers, all other items is JUST the item ID)
 			if (objectMainType == LunarSphereGlobal.searchData.armor) or (objectMainType == LunarSphereGlobal.searchData.weapon) then
 				-- Grab the item link and secure only the parts that we need for the item
 				objectName = select(3, string.find(objectData, "^|c%x+|H(.+)|h%[.+%]"));
@@ -5457,21 +5457,21 @@ function Lunar.Button:Update(self, countOnly)
 --		end
 --	end
 
-if not countOnly then
+	if not countOnly then
 
-	self.buttonType = nil;
-	self.actionTypeCooldown = nil;
-	self.actionTypeCount = nil;
-	self.buttonType, self.actionType, self.actionName = Lunar.Button:GetButtonData(self:GetID(), self.currentStance, Lunar.Button:GetButtonSetting(self:GetID(), self.currentStance, LUNAR_GET_SHOW_ICON));
-	if (self.actionType == "spell") then
---		this.actionName = Lunar.API:FixFaerie(this.actionName);
+		self.buttonType = nil;
+		self.actionTypeCooldown = nil;
+		self.actionTypeCount = nil;
+		self.buttonType, self.actionType, self.actionName = Lunar.Button:GetButtonData(self:GetID(), self.currentStance, Lunar.Button:GetButtonSetting(self:GetID(), self.currentStance, LUNAR_GET_SHOW_ICON));
+		if (self.actionType == "spell") then
+--			this.actionName = Lunar.API:FixFaerie(this.actionName);
+		end
+
+		--_, actionType, actionName = Lunar.Button:GetButtonData(self:GetID(), this.currentStance, Lunar.Button:GetButtonSetting(self:GetID(), this.currentStance, LUNAR_GET_SHOW_COUNT));
+		actionType, actionName = self.actionType, self.actionName;
+--		Lunar.Button:FindSpellReagent(this, this.currentStance, Lunar.Button:GetButtonSetting(self:GetID(), this.currentStance, LUNAR_GET_SHOW_COUNT), actionName, actionType)
+
 	end
-
-	--_, actionType, actionName = Lunar.Button:GetButtonData(self:GetID(), this.currentStance, Lunar.Button:GetButtonSetting(self:GetID(), this.currentStance, LUNAR_GET_SHOW_COUNT));
-	actionType, actionName = self.actionType, self.actionName;
---	Lunar.Button:FindSpellReagent(this, this.currentStance, Lunar.Button:GetButtonSetting(self:GetID(), this.currentStance, LUNAR_GET_SHOW_COUNT), actionName, actionType)
-
-end
 
 	Lunar.Button:UpdateCount(self);
 

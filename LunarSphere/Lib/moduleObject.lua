@@ -1002,7 +1002,7 @@ function Lunar.Object.IconPlaceHolder_OnClick(self)
 				
 		local typeName = UIDropDownMenu_GetSelectedName(_G["LSSettings" .. objectName .. "Type" .. clickType]);
 
-		updateType, updateID, updateData = GetCursorInfo();
+		updateType, updateID, updateData, updateTrueSpellID = GetCursorInfo();
 
 		-- NO. No flyouts for you!
 		if (updateType == "flyout") then
@@ -1059,17 +1059,17 @@ function Lunar.Object.IconPlaceHolder_OnClick(self)
 --			nextSpellName = GetSpellBookItemName(updateID + 1, updateData);
 			spellRank = "(" .. spellRank .. ")";
 
-			_, spellID = GetSpellBookItemInfo(updateID, updateData);
+			--_, spellID = GetSpellBookItemInfo(updateID, updateData);
 			actionName = GetSpellBookItemName(updateID, updateData);
 			objectTexture = GetSpellTexture(updateID, updateData);
-			spellName = GetSpellInfo(spellID);
+			spellName = GetSpellInfo(updateTrueSpellID);
 
 			-- Fix for Call Pet for hunters.
 			if (actionName ~= spellName) then
-				actionName = spellID;
+				actionName = updateTrueSpellID;
 			-- Fix for normal sheep polymorph
-			elseif (spellID == 118) then
-				objectName = spellID;
+			elseif (updateTrueSpellID == 118) then
+				objectName = updateTrueSpellID;
 			else
 --				if (actionName ~= nextSpellName) then
 --					if (string.find(spellRank, "%d")) then
