@@ -6425,6 +6425,7 @@ function Lunar.Button:UpdateSpellState(self)
 
 	if (not self.buttonType) then
 		self.buttonType, self.actionType, self.actionName = Lunar.Button:GetButtonData(self:GetID(), self.currentStance, Lunar.Button:GetButtonSetting(self:GetID(), self.currentStance, LUNAR_GET_SHOW_ICON));
+
 --		if (this.actionType == "spell") then
 --			this.actionName = Lunar.API:FixFaerie(this.actionName);
 --		end
@@ -6455,10 +6456,13 @@ function Lunar.Button:UpdateSpellState(self)
 					end
 				-- Hunters get some love too...
 				elseif (Lunar.Settings.hasAspects) then
-					local isMine = select(8, UnitBuff("player", self.actionName));
-					if (isMine) then
-						border:SetVertexColor(1,1,0);
-						border:Show();
+					local buffIndex = Lunar.getBuffIndex("player", self.actionName)
+					if buffIndex then
+						local casterName = select(7, UnitBuff("player", buffIndex));
+						if (casterName == "player") then
+							border:SetVertexColor(1,1,0);
+							border:Show();
+						end
 					end
 				end
 			end
@@ -7511,6 +7515,16 @@ function Lunar.Button:UpdateBindingText(button)
 		end
 	end
 	_G[button:GetName() .. "HotKey"]:SetText(keybind);
+end
+
+function Lunar.getBuffIndex(unitId, spellName)
+	for i = 1, 40 do
+		buffName, _, _, _, _, _, _, _, _ , spellId, _, _, _, _ = UnitBuff(unitId, i)
+		if buffName == spellName then
+			return i
+		end
+	end
+	return false
 end
 
 --[[  No longer needed. GetCursorInfo returns proper data now.
