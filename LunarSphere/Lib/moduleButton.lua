@@ -4054,14 +4054,9 @@ end
 		elseif (buttonType == 133) then
 			cursorType = Lunar.Button.updateType;
 			objectName = Lunar.Button.updateID;
---			objectName = Lunar.Button.updateData;
-			if (not cursorType) then
-				_, _, objectName = Lunar.Button:GetButtonData(buttonID, stance, clickType);
-				objectTexture = "Interface\\Icons\\" .. GetEquipmentSetInfoByName(string.gsub(objectName, "/equipset ", ""));
-			else
-				objectTexture = "Interface\\Icons\\" .. GetEquipmentSetInfoByName(objectName);
-			end
-
+			local equipmentSetID = C_EquipmentSet.GetEquipmentSetID(objectName)
+			objectTexture = select(2, C_EquipmentSet.GetEquipmentSetInfo(equipmentSetID));
+			
 		-- Pet action buttons
 		elseif (buttonType >= 140) and (buttonType < 150)  then
 			local _, _, texture, isToken = GetPetActionInfo(buttonType - 139);
@@ -6436,7 +6431,6 @@ function Lunar.Button:UpdateSpellState(self)
 		self.updateIcon = true;
 	else
 		if (self.actionType == "spell") and ((self.buttonType < 140) or (self.buttonType >= 150)) then
-			--print("buttonType: " .. self.buttonType .. " " .. "actionType: " .. self.actionType .. " " .. "actionName: " .. self.actionName)
 			local border = _G[self:GetName().."Border"];
 			if (border) then
 				if ( (IsAttackSpell(self.actionName) and IsCurrentSpell(self.actionName)) or IsCurrentSpell(self.actionName) or IsAutoRepeatSpell(self.actionName) ) then --spellID, BOOKTYPE_SPELL)) then
