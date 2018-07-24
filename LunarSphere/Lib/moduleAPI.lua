@@ -518,43 +518,16 @@ end
 
 
 function Lunar.API:IsInAQ()
-
 	-- End now if we're not in an instance
 	if (not IsInInstance()) then
 		return false;
 	end
-
-	-- Get tooltip for one of the AQ mounts (used for checking location)
-	Lunar.Items.tooltip:ClearLines();
-	Lunar.Items.tooltip:SetOwner(UIParent, "ANCHOR_NONE");
-	Lunar.Items.tooltip:SetHyperlink(GetSpellLink(26056));
-
-	-- Get current zone name
-	local currentZone = GetRealZoneText() or "";
-	local currentInstance = GetInstanceInfo() or "";
-
-	-- Scan each line until all have been scanned or a match was found
-	-- If zone name is in mount tooltip, we're in AQ.
-	-- Otherwise, we're not :)
-
-	local searchText, textLine, textContainer, result;
-
-	for textLine = 2, Lunar.Items.tooltip:NumLines() do
-		searchText = nil;
-		textContainer = _G[Lunar.Items.tooltip:GetName() .. "TextLeft" .. textLine];
-		if (textContainer) then
-			searchText = textContainer:GetText();
-		end
-		if (searchText) then
-			result = string.find(searchText, currentZone) or string.find(searchText, currentInstance);
-			if (result) then
-				break;
-			end
-		end
+	
+	if C_Map.GetBestMapForUnit("player") == 320 then -- 320 is map ID for Temple of Ahn'Qiraj
+		return true
+	else
+		return false
 	end
-
-	return result;
-
 end
 
 -- /***********************************************

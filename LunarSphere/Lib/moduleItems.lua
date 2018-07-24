@@ -731,7 +731,7 @@ function Lunar.Items:UpdateLowHighItems()
 	local canFly = IsFlyableArea()
 	local inAQ = Lunar.API:IsInAQ();
 	local Lunar_Seahorse = 0;
-      local Lunar_AbyssalMount_Name, _ = GetSpellInfo(75207);
+    local Lunar_AbyssalMount_Name, _ = GetSpellInfo(75207);
 
 	local playerLevel = UnitLevel("player");
 
