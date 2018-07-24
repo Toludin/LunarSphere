@@ -3334,6 +3334,7 @@ end
 --  *********************
 function Lunar.Button:Assign(self, clickType, stance)
 
+	
 	-- Create our locals and store the data that's in the player's cursor
 	local cursorType, objectID, objectData, objectSpellID = GetCursorInfo();
 	local buttonID = self:GetID();
@@ -3353,15 +3354,8 @@ function Lunar.Button:Assign(self, clickType, stance)
 	-- so that we can, you know, assign those instead.
 	--9/12 Croq - removed in favor of GetMountInfoByID
 	if (cursorType == "companion") then
---	if (Lunar.Button.CompanionType) then
---		cursorType = "companion";
-		-- Get the pet/mount's spell number and texture
---		objectID, objectData = select(3, GetCompanionInfo(Lunar.Button.CompanionType, Lunar.Button.CompanionID));
 		objectID, objectData = select(3, GetCompanionInfo(objectData, objectID));
 	end
-
---	Lunar.Button.CompanionType = nil;
---	Lunar.Button.CompanionID = nil;
 
 	if (cursorType == "spell") then
 --		_, spellName = GetSpellBookItemName( objectID, objectData );
@@ -3566,6 +3560,11 @@ function Lunar.Button:Assign(self, clickType, stance)
 
 			-- Get the name of the item, what it can stack as, and its texture
 			objectName, _, _, _, _, objectMainType, objectType, stackTotal, _, objectTexture = GetItemInfo(objectData);
+			
+			if C_ToyBox.GetToyInfo(objectID) then
+				--print(objectName.." is a toy")
+				--print("/usetoy ".. objectID)	
+			end
 
 			-- NEW code for item names (item link for weapons/armor, to remember their "of the bear" and other animal
 			-- modifiers, all other items is JUST the item ID)
@@ -3621,8 +3620,6 @@ function Lunar.Button:Assign(self, clickType, stance)
 			
 			--something goofy with the mount system. have to put the cursortype to "spell" to get the icon to show up
 			cursorType = "spell"
-
-			--print(objectName, objectTexture);
 
 		end
 
@@ -5206,140 +5203,11 @@ Lunar.eventHandler = {
 --  * Returns: none
 --  *********************
 function Lunar.Button.OnEvent(self, event, ...) --event)
---if (true == true) then
---	return;
---end
 	if Lunar.eventHandler[event] then
 		Lunar.eventHandler[event](self, event, ...);
-
---[[			
---	if ( event == "UPDATE_BINDINGS" ) then
---		ActionButton_UpdateHotkeys(this.buttonType1);
---		return;
---	end
-
-	-- If our target changed or our player gained or lost an aura, check if the
-	-- button is usable
-	if (event == "PLAYER_TARGET_CHANGED") or (event == "PLAYER_AURAS_CHANGED") then
-		Lunar.Button:UpdateUsable(this);
---		ActionButton_UpdateHotkeys(this.buttonType1);
-
-	-- If there was an inventory update, update the button
-	elseif ( event == "UNIT_INVENTORY_CHANGED") then
-		if ( arg1 == "player" ) then
-			if (this.buttonType >= 130) and (this.buttonType < 140) then
-				Lunar.Button.updateCounterFrame.elapsed = 0.2
-				this.updateIcon = true;
-			end
-			Lunar.Button:Update(this, true);
-		end
-
-	-- If there was a bag inventory update, update the button
-	elseif (event == "BAG_UPDATE") then
-		Lunar.Button:Update(this, true);
-
-	elseif (event == "UPDATE_INVENTORY_ALERTS") then
-		if (Lunar.Button.updateCounterFrame.elapsed < 0.2) then
-			Lunar.Button.updateCounterFrame.elapsed = 0.2
-		end
-		timerData[self:GetID()].rangeTimer = -15;
---		Lunar.Button:UpdateUsable(this, "item");
-	elseif (event == "SPELL_UPDATE_COOLDOWN") and (arg1) then
-		Lunar.Button:UpdateCooldown(this, "spell");
-	elseif (event == "BAG_UPDATE_COOLDOWN" ) then
-		Lunar.Button:UpdateCooldown(this, "item");
-		Lunar.Button:UpdateCount(this);
---	elseif ( event == "SPELL_UPDATE_USABLE" or event == "UPDATE_INVENTORY_ALERTS" or event == "SPELL_UPDATE_COOLDOWN" or event == "BAG_UPDATE_COOLDOWN" ) then
---		Lunar.Button:UpdateUsable(this);
---		Lunar.Button:UpdateCooldown(this);
-	-- If a spell's ability to be used changes, it's cooldown changes, or an item
-	-- cooldown changes, update the button
-	elseif (event == "SPELL_UPDATE_USABLE") then
-		if (Lunar.Button.updateCounterFrame.elapsed < 0.2) then
-			Lunar.Button.updateCounterFrame.elapsed = 0.2
-		end
-		timerData[self:GetID()].rangeTimer = -15;
-
---		Lunar.Button:UpdateUsable(this, "spell");
-	elseif (event == "PET_BAR_UPDATE") then
-		if (this.buttonType >= 140) and (this.buttonType < 150)  then
-			local _, _, texture, isToken, isActive = GetPetActionInfo(this.buttonType - 139);
-			local icon;
-			if (self:GetID() > 0) then
-				icon = _G[self:GetName() .. "Icon"];
-				if ( not isToken ) then
-					icon:SetTexture(texture); -- or "Interface\\Icons\\INV_Misc_QuestionMark");
-				else
-					icon:SetTexture(_G[texture]);
-				end
-				SetPortraitToTexture(icon, icon:GetTexture());
-
-				-- Update the "active" glow
-				local border = _G[self:GetName().."Border"];
-				if (isActive) then
-					border:SetVertexColor(1,1,0);
-					border:Show();
-				else
-					border:Hide();
-				end
-			else
-				if (LunarSphereSettings.useSphereClickIcon == true) then
-					icon = _G["LSsphere"];
-					if ( not isToken ) then
-						icon:SetNormalTexture(texture); -- or "Interface\\Icons\\INV_Misc_QuestionMark");
-					else
-						icon:SetNormalTexture(_G[texture]);
-					end
-					SetPortraitToTexture(icon:GetNormalTexture(), icon:GetNormalTexture():GetTexture());
-				end	
-			end
---			local icon = _G[self:GetName() .. "Icon"];
---			local objectTexture = select(3, GetPetActionInfo(this.buttonType - 139)) or ("Interface\\Icons\\INV_Misc_QuestionMark");
---			if (button:GetID() > 0) then
---				_G[self:GetName() .. "Icon"]:SetTexture(objectTexture);
---				SetPortraitToTexture(_G[self:GetName() .. "Icon"], _G[self:GetName() .. "Icon"]:GetTexture());
---			else
---				if (LunarSphereSettings.useSphereClickIcon == true) then
---					_G["LSsphere"]:SetNormalTexture(objectTexture);
---					SetPortraitToTexture(_G["LSsphere"]:GetNormalTexture(), _G["LSsphere"]:GetNormalTexture():GetTexture());
---				end	
---			end
---			Lunar.Button:SetButtonData(self:GetID(), Lunar.Button.currentStance, clickType, buttonType, nil, nil, objectTexture, true);
-		end		
-	elseif (event == "PET_BAR_UPDATE_COOLDOWN") then
-		Lunar.Button:UpdateCooldown(this, "pet");
---]]
 	elseif ( event == "TRADE_SKILL_SHOW" or event == "TRADE_SKILL_CLOSE" ) then
 		Lunar.Button:UpdateSpellState(self);
 	end
---[[
-	-- Handle changes in state/modifiers (to update icons)
-	if ((event == "MODIFIER_STATE_CHANGED") and (this.actionType == "macro")) or (event == "PLAYER_AURAS_CHANGED") or (event == "ACTIONBAR_UPDATE_STATE") or (event == "ACTIONBAR_SLOT_CHANGED") or (event == "UPDATE_SHAPESHIFT_FORM") then --or (event == "PLAYER_TARGET_CHANGED") then
-		Lunar.Button:UpdateSpellState(this)
---		local actionType;
-----		_,actionType = Lunar.Button:GetButtonData(self:GetID(), GetShapeshiftForm(), Lunar.Button:GetButtonSetting(self:GetID(), GetShapeshiftForm(), LUNAR_GET_SHOW_ICON));
-
---		_,actionType = Lunar.Button:GetButtonData(self:GetID(), this.currentStance, Lunar.Button:GetButtonSetting(self:GetID(), this.currentStance, LUNAR_GET_SHOW_ICON));
---		actionType = this.actionType
-
-		if (this.actionType == "macro") then
-			Lunar.Button.updateCounterFrame.elapsed = 0.2
-			this.updateIcon = true;
-		end
-		if (self:GetID() == Lunar.Button.currentMouseOver) then
-			Lunar.Button:SetTooltip(this);	
-		end
-	end
-
---]]
---[[
-	-- If we're entering the world, update the button's events
-	if ( event == "PLAYER_ENTERING_WORLD" ) then
-		this.registeredEvents = nil;
-		Lunar.Button:Update(this);
-		return;
-	end
---]]
 end
 
 function Lunar.Button.UpdateState(self, stateData)
@@ -6908,7 +6776,7 @@ function Lunar.Button:Swap(srcButton, destButton, childSwap)
 
 		-- Update the button events
 		srcButton.registeredEvents = false;
-		destButton.registeredEvents = falae;
+		destButton.registeredEvents = false;
 
 		srcButton:SetAttribute('bindings-S0', ";;;");
 		destButton:SetAttribute('bindings-S0', ";;;");
@@ -7514,8 +7382,7 @@ end
 
 function Lunar.getBuffIndex(unitId, spellName)
 	for i = 1, 40 do
-		buffName, _, _, _, _, _, _, _, _ , spellId, _, _, _, _ = UnitBuff(unitId, i)
-		if buffName == spellName then
+		if UnitBuff(unitName, i) == spellName then
 			return i
 		end
 	end
