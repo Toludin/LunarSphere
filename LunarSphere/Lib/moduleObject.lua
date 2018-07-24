@@ -1128,8 +1128,9 @@ function Lunar.Object.IconPlaceHolder_OnClick(self)
 			actionName, objectTexture = GetMacroInfo(Lunar.Settings["updateID" .. clickType]);
 		elseif (updateType == "equipmentset") then
 			updateType = "macrotext";
-			actionName = "/equipset " .. updateID;
-			objectTexture = "Interface\\Icons\\" .. GetEquipmentSetInfoByName(updateID);
+			actionName = "/equipset " .. updateID; -- updateID is actually name
+			local setID = C_EquipmentSet.GetEquipmentSetID(updateID)
+			objectTexture = select(2, C_EquipmentSet.GetEquipmentSetInfo(setID))
 		end
 
 		_G[self:GetName() .. "Icon"]:SetTexture(objectTexture);
