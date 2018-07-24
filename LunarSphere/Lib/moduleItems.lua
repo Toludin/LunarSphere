@@ -728,7 +728,7 @@ function Lunar.Items:UpdateLowHighItems()
 	local lowCooldown, highCooldown, lowNoCooldown, highNoCooldown, usableItem, bestRange;
 	local cooldown, isFavourite, minLevel;
 --	local hasEpicGroundMount, hasEpicFlyingMount, hasEpicFlyingMount310;
-	local canFly = Lunar.API:CanFly(); 
+	local canFly = IsFlyableArea()
 	local inAQ = Lunar.API:IsInAQ();
 	local Lunar_Seahorse = 0;
       local Lunar_AbyssalMount_Name, _ = GetSpellInfo(75207);
