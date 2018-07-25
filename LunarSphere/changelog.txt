@@ -1,4 +1,13 @@
 LunarSphere Public Release 
+Version 1.40 Changelog:
+
+==================================
+Battle for Azeroth compatability
+==================================
+
+*  Toys currently can't be directly added to buttons. You can create a /usetoy macro and put that on a button for now.
+
+
 Version 1.11 Changelog:
 
 ==================================
