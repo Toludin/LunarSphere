@@ -24,7 +24,7 @@ if (not Lunar.Object) then
 end
 
 -- Set our current version for the module (used for version checking later on)
-Lunar.Object.version = 1.30;
+Lunar.Object.version = 1.40;
 
 -- Create our dropdown data if it doesn't exist yet
 if (not Lunar.Object.dropdownData) then

@@ -22,7 +22,7 @@ if (not Lunar.Button) then
 end
 
 -- Set our current version for the module (used for version checking later on)
-Lunar.Button.version = 1.30;
+Lunar.Button.version = 1.40;
 
 -- Create post WOW 2.2 bug fix, if Stage 5 comes out before 2.2 comes out.
 -- Otherwise, I will rename GetActionFromMacroText in this code to SecureCmdOptionParse

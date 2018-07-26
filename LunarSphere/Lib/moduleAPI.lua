@@ -26,7 +26,7 @@ if (not Lunar.API) then
 end
 
 -- Set our current version for the module (used for version checking later on)
-Lunar.API.version = 1.30;
+Lunar.API.version = 1.40;
 
 -- Set our default chat printing colors
 Lunar.API.chatRed	= 0.3;

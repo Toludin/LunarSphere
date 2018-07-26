@@ -35,7 +35,7 @@ local LSMACRO;
 local LS = "LunarSphere"		-- Not to be localized =)
 local LSE = "LunarSphereExporter"	-- Not to be localized =)
 
-local localeVersion = 1.30;
+local localeVersion = 1.40;
 
 if (locale == "enUS") or (force_enUS == true) then
 	

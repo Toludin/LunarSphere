@@ -25,7 +25,7 @@ if (not Lunar.Speech) then
 	Lunar.Speech = {};
 end
 
-Lunar.Speech.version = 1.30;
+Lunar.Speech.version = 1.40;
 
 -- The speech module uses the speechDatabase table and the LunarSphereGlobal.speechLibrary table
 -- for tracking and storing scripts and speeches. Below is the description of what each table

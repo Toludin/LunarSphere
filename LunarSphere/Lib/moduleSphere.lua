@@ -20,7 +20,7 @@ end
 Lunar.Sphere = {};
 
 -- Set our current version for the module (used for version checking later on)
-Lunar.Sphere.version = 1.30;
+Lunar.Sphere.version = 1.40;
 
 -- Set some settings for Lunar
 Lunar.combatLockdown = false;		-- Tracks if we're in combat
