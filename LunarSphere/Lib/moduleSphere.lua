@@ -228,7 +228,7 @@ local dataTracking = {
 	-- Table of events to watch, indexed by the tags the sphere recognizes
 	eventWatch = {
 		[LS_EVENT_MANA] = "UNIT_POWER_UPDATE", --"UNIT_MANA",
-		[LS_EVENT_RUNIC] = "UNIT_POWER_UPDATER", --"UNIT_RUNIC_POWER",
+		[LS_EVENT_RUNIC] = "UNIT_POWER_UPDATE", --"UNIT_RUNIC_POWER",
 		[LS_EVENT_FIVE] = "UNIT_POWER_UPDATE", --"UNIT_MANA",
 		[LS_EVENT_HEALTH] = "UNIT_HEALTH",
 		[LS_EVENT_EXP] = "PLAYER_XP_UPDATE",
