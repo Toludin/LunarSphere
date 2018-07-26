@@ -6309,7 +6309,8 @@ function Lunar.Button:UpdateSpellState(self)
 				end
 
 				-- Paladins and Death Knights get some love too, for their auras/presences
-				if (Lunar.Settings.hasAuras) then
+				--REMOVED as DKs, Hunters and Paladins no longer have stances
+				--[[if (Lunar.Settings.hasAuras) then
 					local auraID = GetShapeshiftForm(false);
 					if (auraID > 0) then
 						if (self.actionName == select(4, GetShapeshiftFormInfo(auraID))) then
@@ -6317,6 +6318,7 @@ function Lunar.Button:UpdateSpellState(self)
 							border:Show();
 						end
 					end
+					
 				-- Hunters get some love too...
 				elseif (Lunar.Settings.hasAspects) then
 					local buffIndex = Lunar.getBuffIndex("player", self.actionName)
@@ -6327,7 +6329,7 @@ function Lunar.Button:UpdateSpellState(self)
 							border:Show();
 						end
 					end
-				end
+				end]]--
 			end
 		end
 	end

@@ -290,9 +290,9 @@ function Lunar.Settings:Initialize()
 
 		_, Lunar.Settings.hasStances = UnitClass("player");
 		if (Lunar.Settings.hasStances == "PALADIN") or (Lunar.Settings.hasStances == "DEATHKNIGHT") then
-			Lunar.Settings.hasAuras = true;
+			--Lunar.Settings.hasAuras = true;
 		elseif (Lunar.Settings.hasStances == "HUNTER") then
-			Lunar.Settings.hasAspects = true;
+			--Lunar.Settings.hasAspects = true;
 		end
 		
 		if not ((Lunar.Settings.hasStances == "WARRIOR") or (Lunar.Settings.hasStances == "ROGUE") or (Lunar.Settings.hasStances == "DRUID") or (Lunar.Settings.hasStances == "PRIEST") or (Lunar.Settings.hasStances == "SHAMAN") or (Lunar.Settings.hasStances == "WARLOCK")) then
