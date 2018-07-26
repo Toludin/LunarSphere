@@ -363,10 +363,10 @@ function LunarSphere_VariablesLoaded()
 	end
 	
 	if not (versionOK) then
-		Lunar.showStartupMessage = LunarSphereSettings.showStartupMessage;
+		--[[Lunar.showStartupMessage = LunarSphereSettings.showStartupMessage;
 		Lunar.startupMessage = LunarSphereSettings.startupMessage;
 		LunarSphereSettings.showStartupMessage = true;
-		LunarSphereSettings.startupMessage = Lunar.Locale["ERROR_STARTUP"];
+		LunarSphereSettings.startupMessage = Lunar.Locale["ERROR_STARTUP"];]]--
 	end
 	
 	--Lunar.API:MemoryLoader();
